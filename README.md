@@ -13,20 +13,25 @@ There is a data cost - Some datasets cannot be obtained for free, and sometimes,
 **Classification** - To prepare the data for classification, the maximum discount code was used to group the data. In the next step, we encoded string data (hotel name, week day, snapshot date, check-in date) using Label Encoder. Finally, we resampled the data in order to achieve a balanced representation of discount codes. After the preparation process, the data were split into a train set (0.7) and a test set (0.3), then the data were cross-validated (5) to determine the best classifier (with the highest accuracy score). As part of this process, we run each classifier using our 'Search grid' to improve the results via the best parameters for each classifier. Our methodology for assessing each classifier (listed in section 2.1) includes visualizing and expressing the confusion matrix, and ROC graph, also we print the important features (the features that influence the classifier the most). To compare the performance score of the classifiers, we used several different metrics such as accuracy, recall, precision, and ROC. We resampled the data to improve the performance and repeated the above processes with XGBoost, Naive Bayes, and a Neural Network.
 
 In the end, we produced the following comparison graph that allows us to understand the score of each classifier and method:
+
 ![](images/1.png)
 
 The resampled XGBoost is the best classifier as demonstrated in the graph. This is its ROC and the feature influence graphs:
+
 ![](images/2.png)
 
 **Clustering** - In preparation for clustering, we filtered the most appearing hotels in the data (top 150). After that, we filtered check-ins with the highest appearances (top 40), providing enough data to cluster. As a last step, we normalized the price data. Following the preparation phase, we used various clustering models to create the data set - agglomerative with the following methods: ward, complete, average, and single (we produced a dendrogram for each, it can be found here: Dendrogram), as well as K-Means and Gaussian Mixture. We used the Silhouette Score and the number of clusters to compare the model's performance (as shown in the table above).
 We also try PCA before and after. These are the clusters with PCA after GMM:
+
 ![](images/3.png)
 ![](images/4.png)
 
 Below is the price distribution for 4 random hotels (2 of each cluster), as can be seen each cluster has distinctive prices:
+
 ![](images/5.png)
 
 **Active Learning** - Data (Hotels_data_changed) from the prepared dataset was used as the base dataset, and only the top 40 hotels with the most data were analyzed. Our active learner model was fitted with Decision Tree, Random Forest, and XGBoost classifiers as estimators with a query strategy of uncertainty sampling in which we sample the queries we are least certain about, saving money on more certain queries. Based on the learner score and R2 score, the results from this study were collected and stored in an excel file (Active Learning Results). Following that, we calculated how many queries were saved by each algorithm. In the next two graphs, we display only the top 50 queries for display purposes. As can be seen, although the R2 score has shown a difference between the models (as will be explained in the discussion section) The average queries saved by each model are about the same.
+
 ![](images/6.png)
 
 ## Discussion
